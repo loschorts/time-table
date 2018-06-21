@@ -8,6 +8,8 @@
     "test": "test"
   },
   "scripts": {
+    "webpack": "webpack",
+    "webpack_w": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
