@@ -1,9 +1,15 @@
 let ready = false;
 let pending = [];
 
+window.onGoogleMapsClientLoaded = () => {
+    ready = true;
+    pending.forEach((query) => { query(); });
+    pending = [];
+};
+
 export const distanceQuery = (params) => {
     return new Promise((resolve, reject) => {
-        const onResolve = () => {
+        const query = () => {
             resolve(new Promise((res, rej) => {
                 new google.maps.DistanceMatrixService()
                 .getDistanceMatrix(params, res)
@@ -11,17 +17,11 @@ export const distanceQuery = (params) => {
         }
 
         if (ready) {
-            onResolve();
+            query();
         } else {
-            pending.push(onResolve);
+            pending.push(query);
         }
     });
-};
-
-export const clientIsReady = () => {
-    ready = true;
-    pending.forEach((query) => { query(); });
-    pending = [];
 };
 
 export const processDistanceResponse = (response) => {

@@ -16,10 +16,6 @@ import sampleQuery from './sampleQuery';
 const history = createHistory();
 const store = configureStore(history);
 
-window.onGoogleMapsClientLoaded = () => {
-	clientIsReady();
-};
-
 sampleQuery();
 
 const App = () => (
