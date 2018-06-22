@@ -10,7 +10,6 @@ import AppProvider from './components/app_provider';
 import AppRouter from './components/app_router';
 
 import { clientIsReady } from './distanceQuery';
-
 import sampleQuery from './sampleQuery';
 
 const history = createHistory();

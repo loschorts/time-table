@@ -8,13 +8,14 @@ window.onGoogleMapsClientLoaded = () => {
 };
 
 export const distanceQuery = (params) => {
+    console.dir({params})
     return new Promise((resolve, reject) => {
         const query = () => {
             resolve(new Promise((res, rej) => {
                 new google.maps.DistanceMatrixService()
-                .getDistanceMatrix(params, res)
+                .getDistanceMatrix(params, (response)=>{ res({ response, params }) });
             }));
-        }
+        };
 
         if (ready) {
             query();
@@ -24,16 +25,19 @@ export const distanceQuery = (params) => {
     });
 };
 
-export const processDistanceResponse = (response) => {
+export const processDistanceResponse = ({ response, params }) => {
     const result = {};
-
     const { destinationAddresses, originAddresses, rows } = response;
     rows.forEach(({ elements }, o) => {
         elements.forEach(({ distance, duration, status }, d) => {
+            const paramOrigin = params.origins[o];
+            const paramDestination = params.destinations[d];
+
             const origin = originAddresses[o];
             const destination = destinationAddresses[d];
-            result[origin] = result[origin] || {};
-            result[origin][destination] = { origin, destination, distance, duration, status };
+
+            result[paramOrigin] = result[paramOrigin] || {};
+            result[paramOrigin][paramDestination] = { paramOrigin, paramDestination, origin, destination, distance, duration, status };
         })
     });
 

@@ -1,8 +1,14 @@
 import { distanceQuery, processDistanceResponse } from './distanceQuery';
+import { addLocation, getLocations } from './locations';
 
 export default () => {
-    var origins = ['Oakland, CA'];
-    var destinations = ['Pacifica, CA'];
+
+    addLocation("1611 2nd Ave, Oakland, CA");
+    addLocation("Pacifica State Beach");
+    addLocation("Disneyland");
+
+    const origins = getLocations();
+    const destinations = getLocations();
 
     const params = {
       origins,
@@ -13,5 +19,4 @@ export default () => {
     distanceQuery(params)
     	.then(processDistanceResponse)
     	.then(res => console.log(res))
-
 }
