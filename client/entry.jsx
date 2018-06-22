@@ -14,8 +14,8 @@ import { distanceQuery, processDistanceResponse } from './distanceQuery';
 // const history = createHistory();
 // const store = configureStore(history);
 
-var origins = ['Oakland, CA', 'San Francisco, CA'];
-var destinations = ['Pacifica, CA', 'Austin, TX'];
+var origins = ['Oakland, CA'];
+var destinations = ['Pacifica, CA'];
 
 const params = {
   origins,
@@ -23,10 +23,8 @@ const params = {
   travelMode: 'DRIVING',
 };
 
-const cb = (response, status) => console.dir({ response, status })
-
 window.onGoogleMapsClientLoaded = () => {
-	distanceQuery(params, cb).then(processDistanceResponse)
+	distanceQuery(params).then(processDistanceResponse)
 };
 
 
