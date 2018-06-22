@@ -1,8 +1,31 @@
+let ready = false;
+let pending = [];
+
 export const distanceQuery = (params) => {
-    return new Promise((res, rej) => {
-        new google.maps.DistanceMatrixService()
-        .getDistanceMatrix(params, res)
+
+    return new Promise((resolve, reject) => {
+
+        const onResolve = () => {
+            resolve(new Promise((res, rej) => {
+                new google.maps.DistanceMatrixService()
+                .getDistanceMatrix(params, res)
+            }));
+        }
+
+        if (ready) {
+            onResolve();
+        } else {
+            console.log('pendindg');
+            pending.push(onResolve);
+        }
     });
+
+};
+
+
+export const clientIsReady = () => {
+    ready = true;
+    pending.forEach((query) => { query(); });
 };
 
 export const processDistanceResponse = (response) => {
@@ -18,6 +41,5 @@ export const processDistanceResponse = (response) => {
         })
     });
 
-    console.dir({ result });
     return result;
 }
