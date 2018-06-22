@@ -9,29 +9,18 @@ import createHistory from 'history/createBrowserHistory';
 import AppProvider from './components/app_provider';
 import AppRouter from './components/app_router';
 
-import { distanceQuery, processDistanceResponse, clientIsReady } from './distanceQuery';
+import { clientIsReady } from './distanceQuery';
+
+import sampleQuery from './sampleQuery';
 
 const history = createHistory();
 const store = configureStore(history);
 
 window.onGoogleMapsClientLoaded = () => {
-	console.log('ready');
 	clientIsReady();
 };
 
-var origins = ['Oakland, CA'];
-var destinations = ['Pacifica, CA'];
-
-const params = {
-  origins,
-  destinations,
-  travelMode: 'DRIVING',
-};
-
-distanceQuery(params)
-	.then(processDistanceResponse)
-	.then(res => console.log(res))
-
+sampleQuery();
 
 const App = () => (
 	<AppProvider store={store}>
